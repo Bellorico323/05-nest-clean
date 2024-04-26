@@ -8,13 +8,13 @@ import { QuestionBestAnswerChosenEvent } from '../events/question-best-anwer-cho
 
 export interface QuestionProps {
   authorId: UniqueEntityID
-  bestAnswerId?: UniqueEntityID
+  bestAnswerId?: UniqueEntityID | null
   title: string
   content: string
   slug: Slug
   attachments: QuestionAttachmentList
   createdAt: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class Question extends AggregateRoot<QuestionProps> {
@@ -24,6 +24,15 @@ export class Question extends AggregateRoot<QuestionProps> {
 
   get bestAnswerId() {
     return this.props.bestAnswerId
+  }
+
+  set bestAnswerId(bestAnswerId: UniqueEntityID | undefined | null) {
+    if (bestAnswerId && bestAnswerId !== this.props.bestAnswerId) {
+      this.addDomainEvent(new QuestionBestAnswerChosenEvent(this, bestAnswerId))
+    }
+
+    this.props.bestAnswerId = bestAnswerId
+    this.touch()
   }
 
   get title() {
@@ -77,22 +86,6 @@ export class Question extends AggregateRoot<QuestionProps> {
 
   private touch() {
     this.props.updatedAt = new Date()
-  }
-
-  set bestAnswerId(bestAnswerId: UniqueEntityID | undefined) {
-    if (bestAnswerId === undefined) {
-      return
-    }
-
-    if (
-      this.props.bestAnswerId === undefined ||
-      !this.props.bestAnswerId.equals(bestAnswerId)
-    ) {
-      this.addDomainEvent(new QuestionBestAnswerChosenEvent(this, bestAnswerId))
-    }
-
-    this.props.bestAnswerId = bestAnswerId
-    this.touch()
   }
 
   static create(
