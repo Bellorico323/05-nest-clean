@@ -16,7 +16,9 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
       },
     })
 
-    if (!question) return null
+    if (!question) {
+      return null
+    }
 
     return PrismaQuestionMapper.toDomain(question)
   }
@@ -28,7 +30,9 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
       },
     })
 
-    if (!question) return null
+    if (!question) {
+      return null
+    }
 
     return PrismaQuestionMapper.toDomain(question)
   }
@@ -57,10 +61,10 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
     const data = PrismaQuestionMapper.toPrisma(question)
 
     await this.prisma.question.update({
-      data,
       where: {
-        id: data.id,
+        id: question.id.toString(),
       },
+      data,
     })
   }
 

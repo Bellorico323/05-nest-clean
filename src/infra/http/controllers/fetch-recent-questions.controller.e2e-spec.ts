@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 
-describe('Fetch recent questions (e2e)', () => {
+describe('Fetch recent questions (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
@@ -38,14 +38,14 @@ describe('Fetch recent questions (e2e)', () => {
       data: [
         {
           title: 'Question 01',
-          content: 'Question content',
           slug: 'question-01',
+          content: 'Question content',
           authorId: user.id,
         },
         {
           title: 'Question 02',
-          content: 'Question content',
           slug: 'question-02',
+          content: 'Question content',
           authorId: user.id,
         },
       ],
