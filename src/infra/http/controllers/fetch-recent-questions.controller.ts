@@ -16,7 +16,7 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 
 @Controller('/questions')
-export class fetchRecentQuestionsController {
+export class FetchRecentQuestionsController {
   constructor(private fecthRecentQuestions: FetchRecentQuestionsUseCase) {}
 
   @Get()
