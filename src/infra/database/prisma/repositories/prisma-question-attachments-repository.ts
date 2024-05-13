@@ -22,14 +22,6 @@ export class PrismaQuestionAttachmentsRepository
     return questionAttachments.map(PrismaQuestionAttachmentMapper.toDomain)
   }
 
-  async deleteManyByQuestionId(questionId: string): Promise<void> {
-    await this.prisma.attachment.deleteMany({
-      where: {
-        questionId,
-      },
-    })
-  }
-
   async createMany(attachments: QuestionAttachment[]): Promise<void> {
     if (attachments.length === 0) {
       return
@@ -49,11 +41,19 @@ export class PrismaQuestionAttachmentsRepository
       return attachment.id.toString()
     })
 
-    this.prisma.attachment.deleteMany({
+    await this.prisma.attachment.deleteMany({
       where: {
         id: {
           in: attachmentIds,
         },
+      },
+    })
+  }
+
+  async deleteManyByQuestionId(questionId: string): Promise<void> {
+    await this.prisma.attachment.deleteMany({
+      where: {
+        questionId,
       },
     })
   }
