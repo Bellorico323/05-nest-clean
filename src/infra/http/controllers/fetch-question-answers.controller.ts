@@ -5,7 +5,6 @@ import {
   Param,
   Query,
 } from '@nestjs/common'
-
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-cases/fetch-question-answers'
@@ -19,18 +18,19 @@ const pageQueryParamSchema = z
   .pipe(z.number().min(1))
 
 const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
+
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 
 @Controller('/questions/:questionId/answers')
 export class FetchQuestionAnswersController {
-  constructor(private fecthRecentQuestions: FetchQuestionAnswersUseCase) {}
+  constructor(private fetchQuestionAnswers: FetchQuestionAnswersUseCase) {}
 
   @Get()
   async handle(
     @Query('page', queryValidationPipe) page: PageQueryParamSchema,
     @Param('questionId') questionId: string,
   ) {
-    const result = await this.fecthRecentQuestions.execute({
+    const result = await this.fetchQuestionAnswers.execute({
       page,
       questionId,
     })

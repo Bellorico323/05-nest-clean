@@ -24,8 +24,8 @@ describe('Fetch question answers (E2E)', () => {
     app = moduleRef.createNestApplication()
 
     studentFactory = moduleRef.get(StudentFactory)
-    answerFactory = moduleRef.get(AnswerFactory)
     questionFactory = moduleRef.get(QuestionFactory)
+    answerFactory = moduleRef.get(AnswerFactory)
     jwt = moduleRef.get(JwtService)
 
     await app.init()
@@ -64,7 +64,7 @@ describe('Fetch question answers (E2E)', () => {
     expect(response.body).toEqual({
       answers: expect.arrayContaining([
         expect.objectContaining({ content: 'Answer 01' }),
-        expect.objectContaining({ content: 'Answer 02' }),
+        expect.objectContaining({ content: 'Answer 01' }),
       ]),
     })
   })

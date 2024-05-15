@@ -24,8 +24,8 @@ export class FetchQuestionAnswersUseCase {
     page,
   }: FetchQuestionAnswersUseCaseRequest): Promise<FetchQuestionAnswersUseCaseResponse> {
     const answers = await this.answersRepository.findManyByQuestionId(
-      { page },
       questionId,
+      { page },
     )
 
     return right({
